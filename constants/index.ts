@@ -1,31 +1,33 @@
+import { SVGS } from "@/public/assets/imagePaths";
+
 export const sidebarLinks = [
   {
-    imgURL: "/assets/home.svg",
+    imgURL: SVGS.home,
     route: "/",
     label: "Home",
   },
   {
-    imgURL: "/assets/search.svg",
+    imgURL: SVGS.search,
     route: "/search",
     label: "Search",
   },
   {
-    imgURL: "/assets/heart.svg",
+    imgURL: SVGS.heart,
     route: "/activity",
     label: "Activity",
   },
   {
-    imgURL: "/assets/create.svg",
+    imgURL: SVGS.create,
     route: "/create-thread",
     label: "Create Thread",
   },
   {
-    imgURL: "/assets/community.svg",
+    imgURL: SVGS.community,
     route: "/communities",
     label: "Communities",
   },
   {
-    imgURL: "/assets/user.svg",
+    imgURL: SVGS.user,
     route: "/profile",
     label: "Profile",
   },
@@ -42,4 +44,3 @@ export const communityTabs = [
   { value: "members", label: "Members", icon: "/assets/members.svg" },
   { value: "requests", label: "Requests", icon: "/assets/request.svg" },
 ];
-1;
