@@ -22,7 +22,7 @@ const Page = async () => {
         Complete your profile now to use Threads
       </p>
 
-      <section className="p-10 mt-9 bg-dark-2">
+      <section className="p-10 border-2 mt-9 bg-dark-2 border-dark-4 rounded-xl">
         <AccountProfile user={userInfo} btnTitle="Continue" />
       </section>
     </main>

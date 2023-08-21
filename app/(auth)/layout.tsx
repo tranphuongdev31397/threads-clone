@@ -1,9 +1,6 @@
 // app/layout.tsx
+import AppProvider from "@/contexts/AppProvider";
 import "../globals.css";
-import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Thread",
@@ -16,11 +13,5 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${inter.className} bg-black`}>{children}</body>
-      </html>
-    </ClerkProvider>
-  );
+  return <AppProvider>{children}</AppProvider>;
 }

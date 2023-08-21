@@ -6,4 +6,6 @@ export const SVGS: Record<string, string> = {
   community: require("./community.svg"),
   user: require("./user.svg"),
   logout: require("./logout.svg"),
+
+  profile: require("./profile.svg"),
 };
