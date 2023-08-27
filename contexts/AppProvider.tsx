@@ -1,32 +1,15 @@
-import { ClerkProvider } from "@clerk/nextjs";
-import * as React from "react";
-import { ThemeProvider } from "./ThemeProvider";
 import { Inter } from "next/font/google";
-import { dark } from "@clerk/themes";
+import * as React from "react";
+import LibProvider from "./LibProvider";
 const inter = Inter({ subsets: ["latin"] });
 
 export interface AppProviderProps {
   children?: React.ReactNode;
+  theme?: any | undefined;
 }
 
-const LibProvider = ({ children }: AppProviderProps) => {
-  return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
-      {children}
-    </ClerkProvider>
-  );
-};
-
 const MyAppProvider = ({ children }: AppProviderProps) => {
-  return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-      {children}
-    </ThemeProvider>
-  );
+  return <>{children}</>;
 };
 
 export default function AppProvider({ children }: AppProviderProps) {

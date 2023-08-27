@@ -35,7 +35,7 @@ export default function AccountProfile(props: AccountProfileProps) {
     console.log(values);
   }
   return (
-    <div className="text-light-2">
+    <div className="text-dark-2 dark:text-light-2">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <div className="flex flex-row items-center justify-start gap-4">
@@ -56,7 +56,7 @@ export default function AccountProfile(props: AccountProfileProps) {
               name="image"
               render={({ field }) => (
                 <FormItem className="self-stretch">
-                  <FormLabel className="flex items-center justify-center h-full p-4 overflow-hidden border-4 rounded-full border-dark-2 bg-slate-50 aspect-square">
+                  <FormLabel className="flex items-center justify-center h-full p-4 overflow-hidden border-2 rounded-full border-light-2 dark:border-dark-2 bg-slate-50 aspect-square">
                     {field.value ? (
                       <Image
                         src={field.value}

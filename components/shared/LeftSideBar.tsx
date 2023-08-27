@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import * as React from "react";
+import { twMerge } from "tailwind-merge";
 
 export interface LeftSideBarProps {}
 
@@ -13,7 +14,7 @@ const LeftSideBar = React.memo(function LeftSideBar(props: LeftSideBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   return (
-    <section className="text-white custom-scrollbar leftsidebar">
+    <section className="text-dark-2 dark:text-white custom-scrollbar leftsidebar">
       <div className="flex flex-col flex-1 w-full gap-6 px-6">
         {sidebarLinks.map((link) => {
           const isActive =
@@ -30,12 +31,14 @@ const LeftSideBar = React.memo(function LeftSideBar(props: LeftSideBarProps) {
                 height={24}
                 src={link.imgURL}
                 alt={link.label}
+                className=""
               />
 
               <p
-                className={` text-light-1 max-lg:hidden ${
-                  isActive ? "font-semibold" : ""
-                }`}
+                className={twMerge(
+                  `text-dark-1 dark:text-light-1 max-lg:hidden`,
+                  isActive ? "font-semibold text-light-1" : ""
+                )}
               >
                 {link.label}
               </p>

@@ -1,14 +1,13 @@
 // app/layout.tsx
-import "../globals.css";
-import { Inter } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
 import {
   BottomNav,
   LeftSideBar,
   RightSideBar,
   TopNav,
 } from "@/components/shared";
+import AppProvider from "@/contexts/AppProvider";
+import { Inter } from "next/font/google";
+import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,25 +23,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider
-      appearance={{
-        baseTheme: dark,
-      }}
-    >
-      <html lang="en">
-        <body className={inter.className}>
-          <TopNav />
+    <AppProvider>
+      <TopNav />
 
-          <main className="flex flex-row">
-            <LeftSideBar />
-            <section className="main-container">
-              <div className="w-full max-w-4xl">{children}</div>
-            </section>
-            <RightSideBar />
-          </main>
-          <BottomNav />
-        </body>
-      </html>
-    </ClerkProvider>
+      <main className="flex flex-row">
+        <LeftSideBar />
+        <section className="main-container">
+          <div className="w-full max-w-4xl">{children}</div>
+        </section>
+        <RightSideBar />
+      </main>
+      <BottomNav />
+    </AppProvider>
   );
 }

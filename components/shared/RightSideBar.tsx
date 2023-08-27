@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image";
+
 import * as React from "react";
 
 export interface RightSideBarProps {}
