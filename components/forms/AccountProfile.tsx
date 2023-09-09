@@ -18,16 +18,27 @@ import * as z from "zod";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import { SVGS } from "@/public/assets/imagePaths";
+import { Textarea } from "../ui/textarea";
 
 export interface AccountProfileProps {
   user: UserInfo;
   btnTitle: string;
 }
 
-export default function AccountProfile(props: AccountProfileProps) {
+export default function AccountProfile({ user }: AccountProfileProps) {
   const form = useForm({
     resolver: zodResolver(AccountProfileSchema),
+    defaultValues: {
+      name: user?.name || "",
+      username: user?.username || "",
+      bio: user?.bio || "",
+      image: user?.image || "",
+    },
   });
+
+  const handleUpdloadImgage = (e: React.ChangeEvent, fieldChange: any) => {
+    e.preventDefault();
+  };
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof AccountProfileSchema>) {
     // Do something with the form values.
@@ -41,7 +52,7 @@ export default function AccountProfile(props: AccountProfileProps) {
           <div className="flex flex-row items-center justify-start gap-4">
             <FormField
               control={form.control}
-              name="username"
+              name="name"
               render={({ field }) => (
                 <FormItem className="flex-1">
                   <FormLabel>Name</FormLabel>
@@ -56,12 +67,15 @@ export default function AccountProfile(props: AccountProfileProps) {
               name="image"
               render={({ field }) => (
                 <FormItem className="self-stretch">
-                  <FormLabel className="flex items-center justify-center h-full p-4 overflow-hidden border-2 rounded-full border-light-2 dark:border-dark-2 bg-slate-50 aspect-square">
+                  <FormLabel
+                    htmlFor="image"
+                    className="flex items-center justify-center h-full p-4 overflow-hidden border-2 rounded-full border-light-2 dark:border-dark-2 bg-slate-50 aspect-square"
+                  >
                     {field.value ? (
                       <Image
                         src={field.value}
-                        height={96}
-                        width={96}
+                        height={60}
+                        width={60}
                         alt="profile image"
                       />
                     ) : (
@@ -75,18 +89,55 @@ export default function AccountProfile(props: AccountProfileProps) {
                   </FormLabel>
                   <FormControl hidden>
                     <Input
-                      className="hidden"
                       type="file"
-                      accept="image/*"
+                      id="image"
                       placeholder="shadcn"
-                      {...field}
+                      className="hidden"
+                      accept="image/*"
+                      onChange={(e: React.ChangeEvent) =>
+                        handleUpdloadImgage(e, field.onChange)
+                      }
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
           </div>
-          <Button type="submit">Submit</Button>
+
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="Username" {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="bio"
+            render={({ field }) => (
+              <FormItem className="flex-1">
+                <FormLabel>Bio</FormLabel>
+                <FormControl>
+                  <Textarea
+                    className="resize-none"
+                    rows={5}
+                    placeholder="Write Bio"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
+          <Button className="w-full bg-primary-500" type="submit">
+            Submit
+          </Button>
         </form>
       </Form>
     </div>
