@@ -19,6 +19,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { SVGS } from "@/public/assets/imagePaths";
 import { Textarea } from "../ui/textarea";
+import useFileReader from "@/hooks/useFileReader";
 
 export interface AccountProfileProps {
   user: UserInfo;
@@ -36,8 +37,16 @@ export default function AccountProfile({ user }: AccountProfileProps) {
     },
   });
 
-  const handleUpdloadImgage = (e: React.ChangeEvent, fieldChange: any) => {
+  const { blobUrls, files, onChangeFiles } = useFileReader();
+
+  console.log(files);
+  console.log(blobUrls);
+  const handleUpdloadImgage = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldChange: any
+  ) => {
     e.preventDefault();
+    onChangeFiles(e, fieldChange);
   };
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof AccountProfileSchema>) {
@@ -91,10 +100,11 @@ export default function AccountProfile({ user }: AccountProfileProps) {
                     <Input
                       type="file"
                       id="image"
+                      multiple
                       placeholder="shadcn"
                       className="hidden"
                       accept="image/*"
-                      onChange={(e: React.ChangeEvent) =>
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         handleUpdloadImgage(e, field.onChange)
                       }
                     />
