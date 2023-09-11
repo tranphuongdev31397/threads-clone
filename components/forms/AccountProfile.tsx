@@ -20,6 +20,8 @@ import Image from "next/image";
 import { SVGS } from "@/public/assets/imagePaths";
 import { Textarea } from "../ui/textarea";
 import useFileReader from "@/hooks/useFileReader";
+import { useUploadThing } from "@/lib/uploadthings";
+import { isBase64Image } from "@/lib/utils";
 
 export interface AccountProfileProps {
   user: UserInfo;
@@ -39,8 +41,8 @@ export default function AccountProfile({ user }: AccountProfileProps) {
 
   const { blobUrls, files, onChangeFiles } = useFileReader();
 
-  console.log(files);
-  console.log(blobUrls);
+  const { startUpload } = useUploadThing("media");
+
   const handleUpdloadImgage = (
     e: React.ChangeEvent<HTMLInputElement>,
     fieldChange: any
@@ -49,10 +51,21 @@ export default function AccountProfile({ user }: AccountProfileProps) {
     onChangeFiles(e, fieldChange);
   };
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof AccountProfileSchema>) {
+  async function onSubmit(values: z.infer<typeof AccountProfileSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+
+    //Because the image value is always the URL taken from the clerks => If the image changes from the input, the image value is base64
+    const isHasChangeImage = isBase64Image(values.image);
+
+    if (isHasChangeImage) {
+      const imageRes = await startUpload(values.image);
+      if (imageRes && imageRes[0].fileUrl) {
+        values.image = imageRes[0].fileUrl;
+      }
+    }
+
+    //TODO: Update user profile
   }
   return (
     <div className="text-dark-2 dark:text-light-2">
