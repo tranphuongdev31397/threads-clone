@@ -1,27 +1,22 @@
 "use client";
-import { UserInfo } from "@/models";
-import * as React from "react";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AccountProfileSchema } from "@/lib/schemas";
-import { Input } from "../ui/input";
-import * as z from "zod";
-import { Button } from "../ui/button";
-import Image from "next/image";
-import { SVGS } from "@/public/assets/imagePaths";
-import { Textarea } from "../ui/textarea";
 import useFileReader from "@/hooks/useFileReader";
+import { updateUser } from "@/lib/actions/user.actions";
+import { AccountProfileSchema } from "@/lib/schemas";
 import { useUploadThing } from "@/lib/uploadthings";
 import { isBase64Image } from "@/lib/utils";
+import { UserInfo } from "@/models";
+import { SVGS } from "@/public/assets/imagePaths";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "../ui/button";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { ROUTES } from "@/routes";
 
 export interface AccountProfileProps {
   user: UserInfo;
@@ -39,7 +34,12 @@ export default function AccountProfile({ user }: AccountProfileProps) {
     },
   });
 
+  const router = useRouter();
+  const pathname = usePathname();
+
   const { blobUrls, files, onChangeFiles } = useFileReader();
+
+  console.log(files);
 
   const { startUpload } = useUploadThing("media");
 
@@ -59,13 +59,29 @@ export default function AccountProfile({ user }: AccountProfileProps) {
     const isHasChangeImage = isBase64Image(values.image);
 
     if (isHasChangeImage) {
-      const imageRes = await startUpload(values.image);
+      const imageRes = await startUpload(files);
+      console.log(imageRes);
       if (imageRes && imageRes[0].fileUrl) {
         values.image = imageRes[0].fileUrl;
       }
     }
 
-    //TODO: Update user profile
+    await updateUser({
+      userId: user.id,
+      bio: values.bio,
+      image: values.image,
+      name: values.name,
+      username: values.username,
+      path: pathname,
+    });
+
+    if (pathname === ROUTES.profile_edit) {
+      //Current page is edit profile
+      router.back();
+    } else {
+      //Current page is onboarding
+      router.push("/");
+    }
   }
   return (
     <div className="text-dark-2 dark:text-light-2">
