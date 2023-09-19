@@ -13,7 +13,14 @@ import * as React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "../ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../ui/form";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { ROUTES } from "@/routes";
@@ -38,8 +45,6 @@ export default function AccountProfile({ user }: AccountProfileProps) {
   const pathname = usePathname();
 
   const { blobUrls, files, onChangeFiles } = useFileReader();
-
-  console.log(files);
 
   const { startUpload } = useUploadThing("media");
 
@@ -97,6 +102,7 @@ export default function AccountProfile({ user }: AccountProfileProps) {
                   <FormControl>
                     <Input placeholder="Name" {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -138,6 +144,7 @@ export default function AccountProfile({ user }: AccountProfileProps) {
                       }
                     />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -152,6 +159,7 @@ export default function AccountProfile({ user }: AccountProfileProps) {
                 <FormControl>
                   <Input placeholder="Username" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -170,6 +178,7 @@ export default function AccountProfile({ user }: AccountProfileProps) {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
